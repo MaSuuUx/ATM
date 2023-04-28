@@ -9,7 +9,7 @@ class Program
 
         Console.WriteLine("BANK");
         Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("WELCOME Dear User \nWhat u wanna do today? ");
+        Console.WriteLine("Welcome Dear User \nWhat u wanna do today? ");
         Console.WriteLine("----------------------------------------------------------------------");
         Console.Write("1.Balance Inquiry \n2.Withdrawals \n3.Deposit \n4.Cancel \nEnter an option: ");
         opc = int.Parse(Console.ReadLine());
@@ -29,7 +29,7 @@ class Program
                 Cancel();
                 break;
             default:
-                Console.WriteLine("Opción no valida");
+                Console.WriteLine("Invalid option");
                 break;
         }
         while (opc != 4) ;
