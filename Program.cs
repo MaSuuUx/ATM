@@ -1,56 +1,102 @@
-﻿using System.Reflection.Metadata;
+﻿using System;
 
 class Program
 {
+    //Initial Balance
     static double saldo = 1000;
     public static void Main(string[] args)
     {
-        int opc;
+        //Variable to perform another operation
+        bool realizarOtraOperacion = true;
 
-        Console.WriteLine("BANK");
         Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("Welcome Dear User \nWhat u wanna do today? ");
+        Console.WriteLine("                BANK OF IMAGINATION");
         Console.WriteLine("----------------------------------------------------------------------");
-        Console.Write("1.Balance Inquiry \n2.Withdrawals \n3.Deposit \n4.Cancel \nEnter an option: ");
-        opc = int.Parse(Console.ReadLine());
 
-        switch (opc)
+        do
         {
-            case 1:
-                Balance();
-                break;
-            case 2:
-                Withdrawals();
+            Console.WriteLine("----------------------------------------------------------------------");
+            Console.WriteLine("What do you want to do ? ");
+            Console.WriteLine("----------------------------------------------------------------------");
+            
+            //Options
+            Console.Write("1.Balance Inquiry \n2.Withdrawals \n3.Deposit \n4.Cancel \nEnter an option: ");
+            int opc = int.Parse(Console.ReadLine());
+
+            switch (opc)
+            {
+                case 1:
+                    Balance();
                     break;
-            case 3:
-                Deposit();
+                case 2:
+                    Withdrawals();
                     break;
-            case 4:
-                Cancel();
-                break;
-            default:
-                Console.WriteLine("Invalid option");
-                break;
-        }
-        while (opc != 4) ;
+                case 3:
+                    Deposit();
+                    break;
+                case 4:
+                    Cancel();
+                    realizarOtraOperacion = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option");
+                    break;
+            }
+
+            //Conditional
+            if (realizarOtraOperacion)
+            {
+                bool respuestaValida = false;
+                while (!respuestaValida)
+                {
+                    Console.WriteLine("Do you want to perform another operation? (Y/N)");
+                    string respuesta = Console.ReadLine();
+
+                    if (respuesta.ToUpper() == "N")
+                    {
+                        Console.Clear();
+                        Cancel();
+                        realizarOtraOperacion = false;
+                        respuestaValida = true;
+                    }
+                    else if (respuesta.ToUpper() == "Y")
+                    {
+                        respuestaValida = true;
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid option. Please enter Y or N.");
+                    }
+                }
+            }
+        } while (realizarOtraOperacion);
     }
+
     static void Balance()
     {
-        Console.WriteLine("------------------------------------------");
-        Console.WriteLine($"Your balance is  ${saldo}");
-        Console.WriteLine("------------------------------------------");
-        Console.ReadKey();
+        DateTime transactionDateTime = DateTime.Now;
 
+
+        //Ticket
+        Console.WriteLine("------------------------------------------");
+        Console.WriteLine("                BANK OF IMAGINATION");
+        Console.WriteLine("------------------------------------------");
+        Console.WriteLine($"Date: {transactionDateTime.ToShortDateString()}\r\nTime: {transactionDateTime.ToShortTimeString()}\r\nLocation: ATM Branch 123 Imaginary Street, Imaginary City");
+        Console.WriteLine("Type: Balance Inquiry");
+        Console.WriteLine($"Current Balance: ${saldo}");
+        Console.WriteLine("------------------------------------------");
     }
+
     static void Withdrawals()
     {
-        double retirar, saldoDis;
+        double retirar;
+        DateTime transactionDateTime = DateTime.Now;
+
         Console.WriteLine("------------------------------------------");
         Console.Write("How much money do you want to withdraw? $");
         retirar = double.Parse(Console.ReadLine());
         Console.WriteLine("------------------------------------------");
-
-        saldoDis = saldo - retirar;
 
         if (retirar > saldo)
         {
@@ -58,30 +104,51 @@ class Program
         }
         else
         {
+            //Changes the value of the balance
+            saldo -= retirar;
+
+            //Ticket
             Console.WriteLine($"The operation has been carried out successfully, you have withdrawn ${retirar}");
-            Console.WriteLine($"Available balance in the account ${saldoDis}");       
+            Console.WriteLine("\n------------------------------------------");
+            Console.WriteLine("                BANK OF IMAGINATION");
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine($"Date: {transactionDateTime.ToShortDateString()}\r\nTime: {transactionDateTime.ToShortTimeString()}\r\nLocation: ATM Branch 123 Imaginary Street, Imaginary City");
+            Console.WriteLine("Type: Withdrawal");
+            Console.WriteLine($"Amount Withdrawn: ${retirar}");
+            Console.WriteLine($"Current Balance: ${saldo}");
+            Console.WriteLine("------------------------------------------");
         }
-        Console.ReadKey();
     }
+
     static void Deposit()
     {
-        double deposito, saldoDis;
+        double deposito;
+        DateTime transactionDateTime = DateTime.Now;
+
         Console.WriteLine("------------------------------------------");
         Console.Write("Enter the amount you wish to deposit: $");
         deposito = double.Parse(Console.ReadLine());
         Console.WriteLine("------------------------------------------");
 
-        saldoDis = saldo + deposito;
+        //Changes the value of the balance
+        saldo += deposito;
 
+        //Ticket
         Console.WriteLine($"${deposito} has been deposited to your account");
-        Console.WriteLine($"Available balance in the account ${saldoDis}");
-        Console.ReadKey();
-
+        Console.WriteLine("\n------------------------------------------");
+        Console.WriteLine("                BANK OF IMAGINATION");
+        Console.WriteLine("------------------------------------------");
+        Console.WriteLine($"Date: {transactionDateTime.ToShortDateString()}\r\nTime: {transactionDateTime.ToShortTimeString()}\r\nLocation: ATM Branch 123 Imaginary Street, Imaginary City");
+        Console.WriteLine("Type: Deposit");
+        Console.WriteLine($"Amount Deposited: ${deposito}");
+        Console.WriteLine($"Current Balance: ${saldo}");
+        Console.WriteLine("------------------------------------------");
     }
+
     static void Cancel()
     {
         Console.WriteLine("------------------");
-        Console.WriteLine("Have a nice day User :D");
+        Console.WriteLine("Thank you for using our ATM. Have a nice day!");
         Console.WriteLine("------------------");
         Console.ReadKey();
     }
